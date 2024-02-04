@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+
+#banner {
+    background-color: #D4F1F4;
+}
+
+#hours {
+    background-color: #05445E;
+    color: white;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#img-logo {
+    width : 150px;
+    height : 150px;
+}
+
+#navbarNav {
+    background-color: #75E6DA;
+}
