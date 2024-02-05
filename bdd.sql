@@ -1,10 +1,10 @@
-CREATE DATABASE IF NOT EXISTS garage_vincent_parrot
+CREATE DATABASE IF NOT EXISTS steven_garage_vincent_parrot
 
-USE garage_vincent_parrot
+USE steven_garage_vincent_parrot
 
 CREATE TABLE Admin
 (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
     lastname VARCHAR(50) not null,
     firstname VARCHAR(50) not null,
     email VARCHAR(250) not null,
@@ -13,21 +13,21 @@ CREATE TABLE Admin
 
 CREATE TABLE employee
 (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    lastname VARCHAR(50) not null,
-    firstname VARCHAR(50) not null,
-    email VARCHAR(250) not null,
-    password VARCHAR(250) not null
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    lastname VARCHAR(50) NOT NULL,
+    firstname VARCHAR(50) NOT NULL,
+    email VARCHAR(250) NOT NULL,
+    password VARCHAR(250) NOT NULL
 )
 
 CREATE TABLE post
 (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(50) not null,
-    description TEXT not null,
-    price INT(250) not null,
-    kilometers INT(250) not null,
-    year INT not null
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(50) NOT NULL,
+    description TEXT NOT NULL,
+    price INT(250) NOT NULL,
+    kilometers INT(250) NOT NULL,
+    year INT(11) NOT NULL
 )
 
 CREATE TABLE brand
