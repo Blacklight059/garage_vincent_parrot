@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Service{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <h2>Service</h2>
+
+    <table class="table col-lg-4 col-md-6 col-11 m-4 p-3 shadow">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ service.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ service.title }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ service.content }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_service_index') }}">back to list</a>
+
+    <a href="{{ path('app_service_edit', {'id': service.id}) }}">edit</a>
+</div>
+    {{ include('service/_delete_form.html.twig') }}
+{% endblock %}

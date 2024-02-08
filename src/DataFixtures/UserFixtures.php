@@ -20,10 +20,10 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $admin = new Admin();
+        $admin = new Employee();
         $admin->setEmail('admin@admin.fr');
         $admin->setPassword(
-            $this->passwordEncoder->hashPassword($admin, 'admin')
+            $this->passwordEncoder->hashPassword($admin, 'adminadmin')
         );
         $admin->setLastname('PARROT');
         $admin->setFirstname('Vincent');

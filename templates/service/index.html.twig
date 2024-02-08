@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Service index{% endblock %}
+
+{% block body %}
+    <h2 class="m-3">Gestion des préstations</h2>
+
+    <table class="table col-lg-4 col-md-6 col-11 m-4 p-3 shadow">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Descrition</th>
+                <th>Images</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for service in services %}
+            <tr>
+                <td>{{ service.id }}</td>
+                <td>{{ service.title }}</td>
+                <td>{{ service.content }}</td>
+                <td>{% for service in service.getImages() %}
+                        {{ service.name }}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('app_service_show', {'id': service.id}) }}" class="btn btn-lg m-3" id="btn-connexion">show</a>
+                    <a href="{{ path('app_service_edit', {'id': service.id}) }}" class="btn btn-lg m-3" id="btn-connexion">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_service_new') }}" class="btn btn-lg m-3" id="btn-connexion">Créer une prestation</a>
+{% endblock %}
