@@ -60,7 +60,7 @@ class Service
     }
 
     /**
-     * @return Collection|Images[]
+     * @return Collection<int, Images>
      */
     public function getImages(): Collection
     {
@@ -88,4 +88,5 @@ class Service
 
         return $this;
     }
+
 }

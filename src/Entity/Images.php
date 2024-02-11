@@ -16,8 +16,10 @@ class Images
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'images')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'image')]
+    private ?Post $post = null;
+
+    #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Service $service = null;
 
     public function getId(): ?int
@@ -37,6 +39,18 @@ class Images
         return $this;
     }
 
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): static
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
     public function getService(): ?Service
     {
         return $this->service;
@@ -48,4 +62,5 @@ class Images
 
         return $this;
     }
+
 }

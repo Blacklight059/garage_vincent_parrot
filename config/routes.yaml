@@ -3,3 +3,24 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+admin_hours:
+    path: /admin/hours
+    controller: "App:Controller/HoursController::index"
+
+admin_add_hours:
+    path: /admin/add_hours
+    controller: "App:Controller/HoursController::add_hours"
+
+
+admin_edit_hours:
+    path: /admin/_edit_hours/{id}
+    controller: "App/Controller/HoursController::edit_hours"
+    requirements:
+        id: '\d+'
+
+admin_remove_hours:
+    path: /admin/_remove_hours/{id}
+    controller: "App/Controller/HoursController::remove_hours"
+    requirements:
+        id: '\d+'

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hours index{% endblock %}
+
+{% block body %}
+    <h1>Hours index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Open</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for hour in hours %}
+            <tr>
+                <td>{{ hour.id }}</td>
+                <td>{{ hour.open }}</td>
+                <td>
+                    <a href="{{ path('app_hours_show', {'id': hour.id}) }}">show</a>
+                    <a href="{{ path('app_hours_edit', {'id': hour.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_hours_new') }}">Create new</a>
+{% endblock %}

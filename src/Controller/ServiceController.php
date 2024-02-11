@@ -5,15 +5,14 @@ namespace App\Controller;
 use App\Entity\Images;
 use App\Entity\Service;
 use App\Form\ServiceType;
+use App\Repository\ImagesRepository;
 use App\Repository\ServiceRepository;
 use App\ServiceImages\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('admin/service')]
 class ServiceController extends AbstractController
@@ -39,7 +38,6 @@ class ServiceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // On récupère les images transmises
-
 
             $images = $form->get('images')->getData();
 
@@ -76,31 +74,45 @@ class ServiceController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_service_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Service $service, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, 
+    Service $service,
+    ServiceRepository $serviceRepository,
+    ImagesRepository $imagesRepository,
+    PictureService $pictureService, 
+    EntityManagerInterface $entityManager,
+    int $id=null): Response
     {
+
+        $service = $serviceRepository->findBy(['id' => $id])[0];
+        $oldImages = $imagesRepository->findBy(['service' => $id]);
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
 
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('images')->getData();
-            if($images) {
-                $originalFilename = pathinfo($images->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $fichier = $safeFilename.'-'.uniqid().'.'.$images->guessExtension();
-                try {
-                    $images->move(
-                        $this->getParameter('images_directory'),
-                        $fichier
-                    );
-                } catch (FileException $e) {
-                    die ('File did not upload: ' . $e->getMessage());
-                }
+            // On récupère les images transmises
+            foreach($oldImages as $oldImage) {
+                $entityManager->remove($oldImage);            
+
             }
-            $service->addImage($fichier);
-            
+
+            $images = $form->get('images')->getData();
+
+            // On boucle sur les images
+            foreach($images as $image){
+                $folder = 'service/';
+                // On génère un nouveau nom de fichier
+                $fichier = $pictureService->add($image, $folder, 300, 300);
+                
+                $img = new Images();
+                $img->setName($fichier);
+                $service->addImage($img);
+     
+            }
+            $entityManager->persist($service);            
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_service_index');
         }
 
         return $this->render('service/edit.html.twig', [

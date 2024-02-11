@@ -29,7 +29,7 @@
                                     <a class="nav-link" href="{{ path('Homepage') }}">Accueil</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('Cars') }}">Véhicules</a>
+                                    <a class="nav-link" href="{{ path('Show_cars') }}">Véhicules</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('Contact') }}">Contact</a>
@@ -42,11 +42,24 @@
                                     </li>
                                     {% if( app.user.roles[0] == 'ROLE_ADMIN') %}
                                         <li class="nav-item">
-                                            <a class="nav-link" href="app_service_index">Gestion des préstations
+                                            <a class="nav-link" href="{{ path('app_employee_index') }}">Gestion des employés
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="">Gestion des horaires</a>
+                                            <a class="nav-link" href="{{ path('app_service_index') }}">Gestion des préstations
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('admin_hours') }}">Gestion des horaires</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if( app.user.roles[0] == 'ROLE_USER') %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('app_post_index') }}">Gestion des voitures d'occasion
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('admin_hours') }}">Gestion des horaires</a>
                                         </li>
                                     {% endif %}
                                     <li class="nav-item">
@@ -71,29 +84,9 @@
                                 <div class="fw-bolder">
                                     Horaires d'ouvertures :
                                 </div>
-                                <ul class="list-unstyled openning-hours">
-                                    <li class="nav-item">
-                                        Lundi :
-                                    </li>
-                                    <li class="nav-item">
-                                        Mardi :
-                                    </li>
-                                    <li class="nav-item">
-                                        Mercredi :
-                                    </li>
-                                    <li class="nav-item">
-                                        Jeudi :
-                                    </li>
-                                    <li class="nav-item">
-                                        Vendredi :
-                                    </li>
-                                    <li class="nav-item">
-                                        Samedi :
-                                    </li>
-                                    <li class="nav-item">
-                                        Dimanche et jours fériés :
-                                    </li>                                    
-                                </ul>
+                                <div class="list-unstyled openning-hours">
+                                    {{ render(path('Show_hours')) }}
+                                </div>
                             </div>
                             <div class="d-inline col-lg-4 col-md-6 col-12">
                                 <div class="fw-bolder">

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+<div class="col-lg-6 col-md-8 col-11 mx-auto mt-4 mb-4 p-3 text-center">
+    <h2 class="m-3 p-3">Création d'une nouvelle voiture</h2>
+
+    {{ include('post/_form.html.twig') }}
+
+    <a href="{{ path('app_post_index') }}" class="btn btn-lg m-3" id="btn-connexion">Retour à la liste</a>
+</div>
+{% endblock %}

@@ -26,13 +26,13 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <a href="{{ path('app_service_show', {'id': service.id}) }}" class="btn btn-lg m-3" id="btn-connexion">show</a>
-                    <a href="{{ path('app_service_edit', {'id': service.id}) }}" class="btn btn-lg m-3" id="btn-connexion">edit</a>
+                    <a href="{{ path('app_service_show', {'id': service.id}) }}" class="btn btn-lg m-3" id="btn-connexion">Montrer</a>
+                    <a href="{{ path('app_service_edit', {'id': service.id}) }}" class="btn btn-lg m-3" id="btn-connexion">Editer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">aucune prestation trouvée</td>
             </tr>
         {% endfor %}
         </tbody>

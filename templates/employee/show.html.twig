@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employee{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <h2 class="m-3">Employés</h2>
+
+    <table class="table col-lg-4 col-md-6 col-11 m-4 p-3 shadow">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ employee.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ employee.email }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ employee.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ employee.firstname }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_employee_index') }}" class="btn btn-lg m-3" id="btn-connexion">Retour à la liste</a>
+
+    <a href="{{ path('app_employee_edit', {'id': employee.id}) }}" class="btn btn-lg m-3" id="btn-connexion">Editer</a>
+
+    {{ include('employee/_delete_form.html.twig') }}
+{% endblock %}
