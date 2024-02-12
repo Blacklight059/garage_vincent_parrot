@@ -15,13 +15,13 @@
                 <h1 class="page-header">Nos véhicules d'occasion</h1>
             </div>                    
             <div class="container-fluid">                
-                <div class="row justify-content-between text-center text-lg-start m-4 p-3">
+                <div class="row justify-content-between text-center text-lg-start p-3">
 
             {% for post in posts %}  
-                    <div class="col-lg-4 col-md-5 col-12 shadow">
+                    <div class="col-lg-4 col-md-5 col-12 mb-4 shadow">
                         <h4 class="d-flex align-items-stretch">{{ post.title }}</h4>
 
-                                <a href="#" class="d-block mb-4 h-50">
+                                <a href="#" class="d-block mb-4">
                                     <img src={{ asset('uploads/post/') ~ post.images[0].name }} class="img-fluid img-thumbnail active" style="width:100%" alt="service">
                                 </a>
                             <div class="col">                            
@@ -36,8 +36,8 @@
                                 <h5>Prix</h5>
                                 <p>{{ post.price }} €</p>
                             </div>   
-                            <div class="nav-item {{ app.request.get('_route') == 'carDetail' }}">
-                                <a class="nav-link" href="{{ path('carDetail', {'id': post.id}) }}">Voir plus</a>
+                            <div class="col {{ app.request.get('_route') == 'carDetail' }}">
+                                <a class="btn btn-lg m-3" id="btn-connexion" href="{{ path('carDetail', {'id': post.id}) }}">Voir plus</a>
                             </div>     
                     </div>                                                   
             {% endfor %}                

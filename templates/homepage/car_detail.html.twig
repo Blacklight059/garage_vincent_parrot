@@ -37,7 +37,6 @@
                      
 
                         <div class="row col-12 m-3">
-
                             <div class="col">                            
                                 <h5>Marque</h5>
                                 <p>{{ brandName }}</p>
@@ -65,12 +64,14 @@
                                 {% endfor %}                
                             </div>     
                         </div>     
-                        <div class="row col-12 m-3">
+                        <div class="row col m-3">
                             <h5>Description</h5>
-                            <p>{{ post.description }}</p>
+                            <p class="">{{ post.description }}</p>
                         </div>     
-
-                </div>                                                                               
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-11 mx-auto mt-4 mb-4 p-3 text-center shadow">
+                        {{ include('homepage/_contact.html.twig', {'button_label': 'Envoyer'}) }}
+                    </div>                                                                               
             </div>
             </div>
 

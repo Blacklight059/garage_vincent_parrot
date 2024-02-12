@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Repository\BrandRepository;
-use App\Repository\EnergyRepository;
 use App\Repository\HoursRepository;
 use App\Repository\OptionRepository;
 use App\Repository\PostRepository;
@@ -11,6 +9,11 @@ use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\ContactType;
+use App\Services\MailerService;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class HomepageController extends AbstractController
 {
@@ -57,7 +60,8 @@ class HomepageController extends AbstractController
     #[Route('/carDetail/{id}', name: 'carDetail')]
     public function carDetail(        
     PostRepository $postRepository,
-    OptionRepository $optionRepository,
+    Request $request, 
+    MailerService $mailer,
     int $id=null
     ): Response
     {
@@ -75,13 +79,50 @@ class HomepageController extends AbstractController
             }
         }
 
+        // contact form for car
+        $postName = $post->getTitle();
+
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $contactFormData = $form->getData();
+            $subject = 'Demande de contact sur votre site de ' . $contactFormData['email'] . ' au sujet de la voiture' . $postName;
+            $content = $contactFormData['name'] . ' vous a envoyé le message suivant: ' . $contactFormData['message'];
+            $mailer->sendEmail(subject: $subject, content: $content);
+            $this->addFlash('success', 'Votre message a été envoyé');
+            return $this->redirectToRoute('homepage');
+        }
+
         return $this->render('homepage/car_detail.html.twig', [
             'controller_name' => 'HomepageController',
             'post' => $post,
             'brandName' => $brandName,
             'energyName' => $energyName,
-            'optionNames' => $optionNames
+            'optionNames' => $optionNames,
+            'form' => $form->createView()
 
+        ]);
+    }
+
+    
+    #[Route('/contact', name: 'contact')]
+    public function contact(
+        Request $request, 
+        MailerService $mailer
+    )
+    {
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $contactFormData = $form->getData();
+            $subject = 'Demande de contact sur votre site de ' . $contactFormData['email'];
+            $content = $contactFormData['name'] . ' vous a envoyé le message suivant: ' . $contactFormData['message'];
+            $mailer->sendEmail(subject: $subject, content: $content);
+            $this->addFlash('success', 'Votre message a été envoyé');
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render('homepage/contact.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
