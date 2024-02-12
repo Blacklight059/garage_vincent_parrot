@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Option;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,6 +21,8 @@ class PostRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Post::class);
     }
+
+ 
 
 //    /**
 //     * @return Post[] Returns an array of Post objects

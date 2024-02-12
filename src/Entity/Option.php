@@ -19,12 +19,12 @@ class Option
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Post::class, inversedBy: 'options')]
-    private Collection $post;
+    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'options')]
+    private Collection $posts;
 
     public function __construct()
     {
-        $this->post = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,15 +47,17 @@ class Option
     /**
      * @return Collection<int, Post>
      */
-    public function getPost(): Collection
+    public function getPosts(): Collection
     {
-        return $this->post;
+        return $this->posts;
     }
 
     public function addPost(Post $post): static
     {
-        if (!$this->post->contains($post)) {
-            $this->post->add($post);
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->addOption($this);
+
         }
 
         return $this;
@@ -63,7 +65,7 @@ class Option
 
     public function removePost(Post $post): static
     {
-        $this->post->removeElement($post);
+        $this->posts->removeElement($post);
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BrandRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BrandRepository::class)]
@@ -16,8 +18,13 @@ class Brand
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'brands')]
-    private ?Post $post = null;
+    #[ORM\OneToMany(mappedBy: 'brand', targetEntity: Post::class)]
+    private Collection $post;
+
+    public function __construct()
+    {
+        $this->post = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -36,14 +43,32 @@ class Brand
         return $this;
     }
 
-    public function getPost(): ?Post
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPost(): Collection
     {
         return $this->post;
     }
 
-    public function setPost(?Post $post): static
+    public function addPost(Post $post): static
     {
-        $this->post = $post;
+        if (!$this->post->contains($post)) {
+            $this->post->add($post);
+            $post->setBrand($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): static
+    {
+        if ($this->post->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getBrand() === $this) {
+                $post->setBrand(null);
+            }
+        }
 
         return $this;
     }

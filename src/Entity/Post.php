@@ -31,23 +31,21 @@ class Post
     #[ORM\Column]
     private ?int $kilometer = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Brand::class)]
-    private Collection $brands;
-
-    #[ORM\ManyToMany(targetEntity: Option::class, mappedBy: 'post')]
+    #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'posts')]
     private Collection $options;
-
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Energy::class)]
-    private Collection $energies;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Images::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
+    #[ORM\ManyToOne(inversedBy: 'post')]
+    private ?Energy $energy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'post')]
+    private ?Brand $brand = null;
+
     public function __construct()
     {
-        $this->brands = new ArrayCollection();
         $this->options = new ArrayCollection();
-        $this->energies = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
 
@@ -117,36 +115,6 @@ class Post
     }
 
     /**
-     * @return Collection<int, Brand>
-     */
-    public function getBrands(): Collection
-    {
-        return $this->brands;
-    }
-
-    public function addBrand(Brand $brand): static
-    {
-        if (!$this->brands->contains($brand)) {
-            $this->brands->add($brand);
-            $brand->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBrand(Brand $brand): static
-    {
-        if ($this->brands->removeElement($brand)) {
-            // set the owning side to null (unless already changed)
-            if ($brand->getPost() === $this) {
-                $brand->setPost(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Option>
      */
     public function getOptions(): Collection
@@ -156,9 +124,9 @@ class Post
 
     public function addOption(Option $option): static
     {
+
         if (!$this->options->contains($option)) {
             $this->options->add($option);
-            $option->addPost($this);
         }
 
         return $this;
@@ -166,40 +134,8 @@ class Post
 
     public function removeOption(Option $option): static
     {
-        if ($this->options->removeElement($option)) {
-            $option->removePost($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Energy>
-     */
-    public function getEnergies(): Collection
-    {
-        return $this->energies;
-    }
-
-    public function addEnergy(Energy $energy): static
-    {
-        if (!$this->energies->contains($energy)) {
-            $this->energies->add($energy);
-            $energy->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEnergy(Energy $energy): static
-    {
-        if ($this->energies->removeElement($energy)) {
-            // set the owning side to null (unless already changed)
-            if ($energy->getPost() === $this) {
-                $energy->setPost(null);
-            }
-        }
-
+        $this->options->removeElement($option);
+        
         return $this;
     }
 
@@ -229,6 +165,30 @@ class Post
                 $image->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEnergy(): ?Energy
+    {
+        return $this->energy;
+    }
+
+    public function setEnergy(?Energy $energy): static
+    {
+        $this->energy = $energy;
+
+        return $this;
+    }
+
+    public function getBrand(): ?Brand
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(?Brand $brand): static
+    {
+        $this->brand = $brand;
 
         return $this;
     }

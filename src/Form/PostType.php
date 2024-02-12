@@ -39,29 +39,13 @@ class PostType extends AbstractType
                     'class' => 'm-3',
                 ],
             ])
-            ->add('brands', EntityType::class, [
+            ->add('brand', EntityType::class, [
                 'class' => Brand::class,
-                'required' => true, 
                 'choice_label' => 'name',
-                'row_attr' => [
-                    'class' => 'm-3',
-                ],
-                "multiple" => true,
-                'expanded' => true,
-                'mapped' => false,
-
             ])
-            ->add('energies', EntityType::class, [
+            ->add('energy', EntityType::class, [
                 'class' => Energy::class,
-                'required' => true, 
                 'choice_label' => 'name',
-                'row_attr' => [
-                    'class' => 'm-3',
-                ],
-                "multiple" => true,
-                'expanded' => true,
-                'mapped' => false,
-
             ])
             ->add('description', TextareaType::class, [
                 'required' => true, 
@@ -101,8 +85,6 @@ class PostType extends AbstractType
                 'class' => Option::class,
                 'choice_label' => 'name',
                 "multiple" => true,
-                'expanded' => true,
-                'mapped' => false,
             ])
             ->add('images', FileType::class, [
                 'label' => false,

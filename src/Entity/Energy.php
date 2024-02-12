@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EnergyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EnergyRepository::class)]
@@ -16,9 +18,13 @@ class Energy
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'energies')]
-    private ?Post $post = null;
+    #[ORM\OneToMany(mappedBy: 'energy', targetEntity: Post::class)]
+    private Collection $post;
 
+    public function __construct()
+    {
+        $this->post = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -37,16 +43,33 @@ class Energy
         return $this;
     }
 
-    public function getPost(): ?Post
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPost(): Collection
     {
         return $this->post;
     }
 
-    public function setPost(?Post $post): static
+    public function addPost(Post $post): static
     {
-        $this->post = $post;
+        if (!$this->post->contains($post)) {
+            $this->post->add($post);
+            $post->setEnergy($this);
+        }
 
         return $this;
     }
 
+    public function removePost(Post $post): static
+    {
+        if ($this->post->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getEnergy() === $this) {
+                $post->setEnergy(null);
+            }
+        }
+
+        return $this;
+    }
 }

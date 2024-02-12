@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Brand;
-use App\Entity\Energy;
 use App\Entity\Images;
-use App\Entity\Option;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\ImagesRepository;
@@ -24,9 +21,11 @@ class PostController extends AbstractController
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
     public function index(PostRepository $postRepository): Response
     {
+
         return $this->render('post/index.html.twig', [
             'posts' => $postRepository->findAll(),
         ]);
+
     }
 
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
@@ -36,8 +35,9 @@ class PostController extends AbstractController
     {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
-        $form->handleRequest($request);
-
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+        }
         
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('images')->getData();
@@ -77,7 +77,6 @@ class PostController extends AbstractController
     Post $post, 
     PostRepository $postRepository,
     ImagesRepository $imagesRepository,
-    OptionRepository $optionRepository,
     PictureService $pictureService,
     EntityManagerInterface $entityManager,
     int $id=null): Response
@@ -85,7 +84,6 @@ class PostController extends AbstractController
         
         $post = $postRepository->findBy(['id' => $id])[0];
         $oldImages = $imagesRepository->findBy(['post' => $id]);
-        $oldOptions = $optionRepository->findBy(['post' => $id]);
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -93,20 +91,11 @@ class PostController extends AbstractController
             foreach($oldImages as $oldImage) {
                 $entityManager->remove($oldImage);            
             }
-            foreach($oldOptions as $oldOption) {
-                $entityManager->remove($oldOption);            
-            }
 
             $images = $form->get('images')->getData();
-            $options = $form->get('options')->getData();
-            $brands = $form->get('brands')->getData();
-            $energies = $form->get('energies')->getData();
-
-            $newPost = $form->getData();
-
             // On boucle sur les images
             foreach($images as $image){
-                $folder = 'service/';
+                $folder = 'post/';
                 // On génère un nouveau nom de fichier
                 $fichier = $pictureService->add($image, $folder, 300, 300);
 
@@ -114,33 +103,6 @@ class PostController extends AbstractController
                 $img->setName($fichier);
                 $post->addImage($img);
     
-            }
-
-            foreach($options as $option)
-            {
-                $optionNew = new Option();
-                $optionNew->setName($option->getName());
-                $optionNew->addPost($post);
-
-                $entityManager->persist($optionNew);
-            }
-
-            foreach($brands as $brand)
-            {
-                $brandNew = new Brand();
-                $brandNew->setName($brand->getName());
-                $brandNew->setPost($post);
-
-                $entityManager->persist($brandNew);
-            }
-
-            foreach($energies as $energy)
-            {
-                $energyNew = new Energy();
-                $energyNew->setName($energy->getName());
-                $energyNew->setPost($post);
-
-                $entityManager->persist($energyNew);
             }
 
             $entityManager->flush();

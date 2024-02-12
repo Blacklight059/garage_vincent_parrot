@@ -27,12 +27,12 @@
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
                 <td>                
-                    {% for post in post.getBrands() %}
+                    {% for post in post.getBrand() %}
                         {{ post.name }}
                     {% endfor %}
                 </td>
                 <td>                
-                    {% for post in post.getEnergies() %}
+                    {% for post in post.getEnergy() %}
                         {{ post.name }}
                     {% endfor %}
                 </td>
