@@ -29,7 +29,25 @@
                                 <h5>Description</h5>
                                 <p>{{ service.content }}</p>
                             </div>
-                    </div>
+                    </div>            
             {% endfor %}
+            {% for review in reviews %}
+                {% if(review.validate == true) %}
+                    <div id="review" class="row col-4 text-center justify-content-center m-3 shadow">
+                        <h4>{{ review.pseudo }}</h4>
+                        <div class="rating-container theme-krajee-fas rating-sm m-3">
+                        {% for i in 1..review.rating %}
+                            <span class="star">
+                                <i id="show-star" class="fas fa-star"></i>
+                            </span>
+                        {% endfor %}
+                        </div>
+                            <div class="d-inline align-text-top">
+                                <p>{{ review.content }}</p>
+                            </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
 </div>
 {% endblock %}

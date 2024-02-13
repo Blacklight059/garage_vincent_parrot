@@ -4,6 +4,11 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+homepage:
+    path: /
+    controller: "App:Controller/HomepageController::index"
+
+
 admin_hours:
     path: /admin/hours
     controller: "App:Controller/HoursController::index"

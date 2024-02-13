@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ContactType;
+use App\Repository\ReviewRepository;
 use App\Services\MailerService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -18,12 +19,17 @@ use Symfony\Component\Mime\Email;
 class HomepageController extends AbstractController
 {
     #[Route('/', name: 'Homepage')]
-    public function index(ServiceRepository $serviceRepository): Response
+    public function index(
+        ServiceRepository $serviceRepository,
+        ReviewRepository $reviewRepository
+    ): Response
     {
         $services = $serviceRepository->findAll();
+        $reviews = $reviewRepository->findAll();
         return $this->render('homepage/index.html.twig', [
             'controller_name' => 'HomepageController',
-            'services' => $services
+            'services' => $services,
+            'reviews' => $reviews
         ]);
     }
 
