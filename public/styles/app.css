@@ -1,3 +1,12 @@
+/* assets/styles/app.css */
+
+@font-face{
+	font-family: 'Crimson';
+	  font-style: normal;
+	  font-weight: 400;
+	  src: url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+}
+
 * {
     box-sizing: border-box;
 }
@@ -31,6 +40,17 @@
     color: white;
 }
 
+#reset-filters{
+    background-color: #05445E;
+    color: white;
+}
+
+#contact-form {
+    background-color: #D4F1F4;
+    color: white;
+
+}
+
 .form {
     background-color: #D4F1F4;
 }
@@ -42,3 +62,4 @@
 #show-star {
     background-color: #75E6DA;
 }
+

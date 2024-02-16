@@ -45,8 +45,10 @@ class ServiceType extends AbstractType
                        'minMessage' => 'Le message doit contenir au minimum {{ limit }} caractères'
                     ]),
                 ],
-                'row_attr' => [
-                    'class' => 'm-3',
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => "10",
+                    'cols' => "50",
                 ],
             ])
             ->add('images', FileType::class, [

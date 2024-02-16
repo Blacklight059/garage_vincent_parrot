@@ -38,8 +38,10 @@ class ContactType extends AbstractType
                        'minMessage' => 'Le message doit contenir au minimum {{ limit }} caractères'
                     ]),
                 ],
-                'row_attr' => [
+                'attr' => [
                     'class' => 'form-control',
+                    'rows' => "10",
+                    'cols' => "50",
                 ],
             ])
         ;

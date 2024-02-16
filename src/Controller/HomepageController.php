@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ContactType;
+use App\Repository\BrandRepository;
+use App\Repository\EnergyRepository;
 use App\Repository\ReviewRepository;
 use App\Services\MailerService;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,20 +38,21 @@ class HomepageController extends AbstractController
     #[Route('/cars', name: 'Show_cars')]
     public function showCars(
         PostRepository $postRepository,
+        BrandRepository $brandRepository,
+        EnergyRepository $energyRepository
+
     ): Response
     {
         $posts = $postRepository->findAll();
-        foreach($posts as $post) {
-            $brand = $post->getBrand();
-            $brandName = $brand->getName();
-        }
-
-        
+        $brands = $brandRepository->findAll();
+        $energies = $energyRepository->findAll();
 
         return $this->render('homepage/cars.html.twig', [
             'controller_name' => 'HomepageController',
             'posts' => $posts,
-            'brandName' => $brandName
+            'brands' => $brands,
+            'energies' => $energies
+
         ]);
     }
 

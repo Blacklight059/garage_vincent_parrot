@@ -26,12 +26,12 @@ class ReviewController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($review);
             $entityManager->flush();
+            $this->addFlash('success', 'Votre message a été envoyé');
+            return $this->redirectToRoute('Homepage');            
         }
 
         $entityManager->flush();
 
-        $this->addFlash('success', 'Votre message a été envoyé');
-        return $this->redirectToRoute('Homepage');
 
         return $this->render('review/index.html.twig', [
             'controller_name' => 'ReviewController',
