@@ -26,6 +26,7 @@ class ReviewType extends AbstractType
                     'data-step' => 1,
                     'data-size' => "sm",
                 ],
+                'label' => 'Note'
             ])
             ->add('email',EmailType::class, [
                 'attr' => [

@@ -16,6 +16,7 @@
                 <div class="row justify-content-center mb-4 shadow">
                     <div class="col-lg-2 col-md-5 col-12">
                         <!-- Filtre pour les marques -->
+                        <p>Toutes les marques</p>
                         <select class="form-select form-select-lg mb-3" id="filter-brand">
                             <option value="">Toutes les marques</option>
                             {% for brand in brands %}
@@ -24,8 +25,8 @@
                         </select>
                     </div>
                     <div class="col-lg-2 col-md-5 col-12">
-
                         <!-- Filtre pour les carburant -->
+                        <p>Toutes les energies</p>
                         <select class="form-select form-select-lg mb-3" id="filter-energy">
                         <option value="">Toutes les energies</option>
                         {% for energy in energies %}
@@ -36,6 +37,7 @@
                     <div class="col-lg-2 col-md-5 col-12">
 
                         <!-- Filtre pour les kilomètres -->
+                        <p>Kilomètres min.</p>
                         <select class="form-select form-select-lg mb-3" id="filter-km-min">
                         {% for i in range(0, 300000, 10000) %}
                             <option value="{{ i }}">{{ i }} km</option>
@@ -43,7 +45,7 @@
                         </select>
                     </div>
                     <div class="col-lg-2 col-md-5 col-12">
-
+                        <p>Kilomètres max.</p>
                         <select class="form-select form-select-lg mb-3" id="filter-km-max">
                         {% for i in range(300000, 0, 10000) %}
                             <option value="{{ i }}">{{ i }} km</option>
@@ -53,6 +55,7 @@
                     <div class="col-lg-2 col-md-5 col-12">
 
                         <!-- Filtre pour les prix -->
+                        <p>Prix min.</p>
                         <select class="form-select form-select-lg mb-3" id="filter-price-min">
                         {% for i in range(0, 100000, 5000) %}
                             <option value="{{ i }}">{{ i }} €</option>
@@ -61,6 +64,7 @@
 
                     </div>
                     <div class="col-lg-2 col-md-5 col-12">
+                        <p>Prix max.</p>
                         <select class="form-select form-select-lg mb-3" id="filter-price-max">
                         {% for i in range(100000, 0, 5000) %}
                             <option value="{{ i }}">{{ i }} €</option>
@@ -75,29 +79,30 @@
                     {% for post in posts %}  
                         <div class="col-lg-4 col-md-5 col-12 mb-4 shadow post-element" data-brand={{ post.brand.name }} data-energy={{ post.energy.name }} data-kilometer={{ post.kilometer }} data-price={{ post.price }}>
                                 <h4 class="d-flex align-items-stretch">{{ post.title }}</h4>
-
-                                        <a href="#" class="d-block mb-4">
-                                            <img src={{ asset('uploads/post/') ~ post.images[0].name }} class="img-fluid img-thumbnail active" style="width:100%" alt="service">
-                                        </a>
-                                    <div class="col">                            
+                                <a href="#" class="d-block mb-4">
+                                    <img src={{ asset('uploads/post/') ~ post.images[0].name }} class="img-fluid img-thumbnail active" style="width:100%" alt="service">
+                                </a>
+                                <div id="card-car" class="row justify-content-between">
+                                    <div class="col-lg-4 col-md-5 col-12 mb-4">                            
                                         <h5>Marque</h5>
                                         <p>{{ post.brand.name }}</p>             
                                     </div>
-                                    <div class="col">                            
-                                        <h5>Marque</h5>
+                                    <div class="col-lg-4 col-md-5 col-12 mb-4">                            
+                                        <h5>Carburant</h5>
                                         <p>{{ post.energy.name }}</p>             
                                     </div>
-                                    <div class="col">
-                                        <h5>Kilomètre</h5>
+                                    <div class="col-lg-4 col-md-5 col-12 mb-4">
+                                        <h5>Kilomètres</h5>
                                         <p>{{ post.kilometer }} km</p>
                                     </div>
                                     <div class="col">
                                         <h5>Prix</h5>
                                         <p>{{ post.price }} €</p>
-                                    </div>  
+                                    </div>
+                                </div>
                                     <div class="col {{ app.request.get('_route') == 'carDetail' }}">
                                         <a class="btn btn-lg m-3" id="btn-connexion" href="{{ path('carDetail', {'id': post.id}) }}">Voir plus</a>
-                                    </div>    
+                                    </div>
                         </div>
                     {% endfor %}                
                 </div>
