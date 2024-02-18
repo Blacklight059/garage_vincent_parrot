@@ -3,6 +3,8 @@ $(document).ready(function() {
     function filterElements() {
       var brand = $('#filter-brand').val();
       var energy = $('#filter-energy').val();
+      var yearMin = parseInt($('#filter-year-min').val(), 10);
+      var yearMax = parseInt($('#filter-year-max').val(), 10);
       var kmMin = parseInt($('#filter-km-min').val(), 10);
       var kmMax = parseInt($('#filter-km-max').val(), 10);
       var priceMin = parseInt($('#filter-price-min').val(), 10);
@@ -12,11 +14,13 @@ $(document).ready(function() {
         var el = $(this);
         var elBrand = el.data('brand');
         var elEnergy = el.data('energy');
+        var elYear = parseInt(el.data('year'), 10);
         var elKm = parseInt(el.data('kilometer'), 10);
         var elPrice = parseInt(el.data('price'), 10);
   
         if ((brand === '' || elBrand === brand) &&
             (energy === '' || elEnergy === energy) &&
+            (elYear >= yearMin && elYear <= yearMax) &&
             (elKm >= kmMin && elKm <= kmMax) &&
             (elPrice >= priceMin && elPrice <= priceMax)) {
           el.show();
@@ -27,7 +31,7 @@ $(document).ready(function() {
     }
   
     // Écouteurs d'événements pour les champs de filtre
-    $('#filter-brand, #filter-energy, #filter-km-min, #filter-km-max, #filter-price-min, #filter-price-max').on('change', filterElements);
+    $('#filter-brand, #filter-energy, #filter-year-min, #filter-year-max, #filter-km-min, #filter-km-max, #filter-price-min, #filter-price-max').on('change', filterElements);
   
     // Initialise le filtrage au chargement
     filterElements();
@@ -37,6 +41,8 @@ $(document).ready(function() {
 function resetFilters() {
   $('#filter-brand').val('');
   $('#filter-energy').val('');
+  $('#filter-year-min').val('1980');
+  $('#filter-year-max').val('2024');
   $('#filter-km-min').val('0');
   $('#filter-km-max').val('300000');
   $('#filter-price-min').val('0');

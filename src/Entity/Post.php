@@ -43,14 +43,11 @@ class Post
     #[ORM\ManyToOne(inversedBy: 'post')]
     private ?Brand $brand = null;
 
-    #[ORM\ManyToMany(targetEntity: Contact::class, mappedBy: 'post')]
-    private Collection $contacts;
 
     public function __construct()
     {
         $this->options = new ArrayCollection();
         $this->images = new ArrayCollection();
-        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,30 +194,4 @@ class Post
         return $this;
     }
 
-    /**
-     * @return Collection<int, Contact>
-     */
-    public function getContacts(): Collection
-    {
-        return $this->contacts;
-    }
-
-    public function addContact(Contact $contact): static
-    {
-        if (!$this->contacts->contains($contact)) {
-            $this->contacts->add($contact);
-            $contact->addPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContact(Contact $contact): static
-    {
-        if ($this->contacts->removeElement($contact)) {
-            $contact->removePost($this);
-        }
-
-        return $this;
-    }
 }

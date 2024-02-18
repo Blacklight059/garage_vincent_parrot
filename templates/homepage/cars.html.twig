@@ -34,6 +34,26 @@
                         {% endfor %}                
                         </select>
                     </div>
+
+                    <div class="col-lg-2 col-md-5 col-12">
+
+                        <!-- Filtre pour les années -->
+                        <p>Année min.</p>
+                        <select class="form-select form-select-lg mb-3" id="filter-year-min">
+                        {% for i in range(1980, 2024, 1) %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}                
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-5 col-12">
+                        <p>Année max.</p>
+                        <select class="form-select form-select-lg mb-3" id="filter-year-max">
+                        {% for i in range(2024, 1980, 1) %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}  
+                        </select>
+                    </div>
+
                     <div class="col-lg-2 col-md-5 col-12">
 
                         <!-- Filtre pour les kilomètres -->
@@ -77,32 +97,36 @@
                 </div>                
                 <div class="row justify-content-between align-items-stretch text-center text-lg-start p-3">
                     {% for post in posts %}  
-                        <div class="col-lg-4 col-md-5 col-12 mb-4 shadow post-element" data-brand={{ post.brand.name }} data-energy={{ post.energy.name }} data-kilometer={{ post.kilometer }} data-price={{ post.price }}>
-                                <h4 class="d-flex align-items-stretch">{{ post.title }}</h4>
-                                <a href="#" class="d-block mb-4">
-                                    <img src={{ asset('uploads/post/') ~ post.images[0].name }} class="img-fluid img-thumbnail active" style="width:100%" alt="service">
-                                </a>
-                                <div id="card-car" class="row justify-content-between">
-                                    <div class="col-lg-4 col-md-5 col-12 mb-4">                            
-                                        <h5>Marque</h5>
-                                        <p>{{ post.brand.name }}</p>             
-                                    </div>
-                                    <div class="col-lg-4 col-md-5 col-12 mb-4">                            
-                                        <h5>Carburant</h5>
-                                        <p>{{ post.energy.name }}</p>             
-                                    </div>
-                                    <div class="col-lg-4 col-md-5 col-12 mb-4">
-                                        <h5>Kilomètres</h5>
-                                        <p>{{ post.kilometer }} km</p>
-                                    </div>
-                                    <div class="col">
-                                        <h5>Prix</h5>
-                                        <p>{{ post.price }} €</p>
-                                    </div>
+                        <div class="col-lg-4 col-md-5 col-12 mb-4 shadow post-element" data-brand={{ post.brand.name }} data-energy={{ post.energy.name }} data-year={{ post.year }} data-kilometer={{ post.kilometer }} data-price={{ post.price }}>
+                            <h4 class="d-flex align-items-stretch">{{ post.title }}</h4>
+                            <a href="#" class="d-block mb-4">
+                                <img src={{ asset('uploads/post/') ~ post.images[0].name }} class="img-fluid img-thumbnail active" style="width:100%" alt="service">
+                            </a>
+                            <div id="card-car" class="row justify-content-between">
+                                <div class="col-lg-4 col-md-5 col-12 mb-4">                            
+                                    <h5>Marque</h5>
+                                    <p>{{ post.brand.name }}</p>             
                                 </div>
-                                    <div class="col {{ app.request.get('_route') == 'carDetail' }}">
-                                        <a class="btn btn-lg m-3" id="btn-connexion" href="{{ path('carDetail', {'id': post.id}) }}">Voir plus</a>
-                                    </div>
+                                <div class="col-lg-4 col-md-5 col-12 mb-4">                            
+                                    <h5>Carburant</h5>
+                                    <p>{{ post.energy.name }}</p>             
+                                </div>
+                                <div class="col-lg-4 col-md-5 col-12 mb-4">
+                                    <h5>Années</h5>
+                                    <p>{{ post.year }}</p>
+                                </div>
+                                <div class="col-lg-4 col-md-5 col-12 mb-4">
+                                    <h5>Kilomètres</h5>
+                                    <p>{{ post.kilometer }} km</p>
+                                </div>
+                                <div class="col">
+                                    <h5>Prix</h5>
+                                    <p>{{ post.price }} €</p>
+                                </div>
+                            </div>
+                            <div class="col {{ app.request.get('_route') == 'carDetail' }}">
+                                <a class="btn btn-lg m-3" id="btn-connexion" href="{{ path('carDetail', {'id': post.id}) }}">Voir plus</a>
+                            </div>
                         </div>
                     {% endfor %}                
                 </div>

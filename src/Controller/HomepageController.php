@@ -95,8 +95,8 @@ class HomepageController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $contactFormData = $form->getData();
-            $subject = 'Demande de contact sur votre site de ' . $contactFormData['email'] . ' au sujet de la voiture' . $postName;
-            $content = $contactFormData['name'] . ' vous a envoyé le message suivant: ' . $contactFormData['message'];
+            $subject = 'Demande de contact sur votre site de '. 'email: ' . $contactFormData['email'] . ' téléphone: ' . $contactFormData['phoneNumber'] . ' au sujet de la voiture' . $postName;
+            $content = $contactFormData['name'] . $contactFormData['firstname'] . ' vous a envoyé le message suivant: ' . $contactFormData['message'];
             $mailer->sendEmail(subject: $subject, content: $content);
             $this->addFlash('success', 'Votre message a été envoyé');
             return $this->redirectToRoute('homepage');
@@ -124,8 +124,8 @@ class HomepageController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $contactFormData = $form->getData();
-            $subject = 'Demande de contact sur votre site de ' . $contactFormData['email'];
-            $content = $contactFormData['name'] . ' vous a envoyé le message suivant: ' . $contactFormData['message'];
+            $subject = 'Demande de contact sur votre site de ' . 'email: ' . $contactFormData['email'] . ' téléphone: ' . $contactFormData['phoneNumber'];
+            $content = $contactFormData['name'] . $contactFormData['firstname'] . ' vous a envoyé le message suivant: ' . $contactFormData['message'];
             $mailer->sendEmail(subject: $subject, content: $content);
             $this->addFlash('success', 'Votre message a été envoyé');
             return $this->redirectToRoute('homepage');

@@ -17,7 +17,7 @@ class ReviewType extends AbstractType
             ->add('rating',TextType::class, [
                 'attr' => [                
                     'id' => "input-21d",
-                    'value' => "2",
+                    'value' => "1",
                     'type' => "text",
                     'class' => "rating",
                     'data-theme' => "krajee-fas",
